@@ -16,7 +16,7 @@ class _ProductCartState extends State<ProductCart> {
   Widget build(BuildContext context) {
     final itemProvider = Provider.of<Item>(context);
     final cartProvider = Provider.of<Cart>(context);
-    final carta = Provider.of<CartItemm>(context);
+
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -97,11 +97,9 @@ class _ProductCartState extends State<ProductCart> {
                             color: Colors.lightGreen,
                           ),
                           onPressed: () {
-                            cartProvider.addItemToCart(
-                              itemProvider.id,
-                              itemProvider.price,
-                              itemProvider.title,
-                            );
+                            setState(() {
+                              cartProvider.moinsItem(itemProvider.id);
+                            });
                             Scaffold.of(context).hideCurrentSnackBar();
                             Scaffold.of(context).showSnackBar(
                               SnackBar(
@@ -110,7 +108,7 @@ class _ProductCartState extends State<ProductCart> {
                                 action: SnackBarAction(
                                   label: 'UNDO',
                                   onPressed: () {
-                                    cartProvider.moinsItem(itemProvider.id);
+                                    cartProvider.sommeItem(itemProvider.id);
                                   },
                                 ),
                               ),
@@ -118,7 +116,7 @@ class _ProductCartState extends State<ProductCart> {
                           },
                         ),
                         Text(
-                          carta.showQuantity != null ? carta.showQuantity : '',
+                          cartProvider.showQuantity(itemProvider.id).toString(),
                           style:
                               TextStyle(fontSize: 5, color: Colors.pink[900]),
                         ),
@@ -129,7 +127,9 @@ class _ProductCartState extends State<ProductCart> {
                             color: Colors.lightGreen,
                           ),
                           onPressed: () {
-                            cartProvider.sommeItem(itemProvider.id);
+                            setState(() {
+                              cartProvider.sommeItem(itemProvider.id);
+                            });
                             Scaffold.of(context).hideCurrentSnackBar();
                             Scaffold.of(context).showSnackBar(
                               SnackBar(
@@ -195,3 +195,4 @@ class _ProductCartState extends State<ProductCart> {
     );
   }
 }
+
