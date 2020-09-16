@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class CartItemm with ChangeNotifier {
   final String id;
   final String title;
-  int quantity = 0;
+  int quantity;
   final double price;
   CartItemm({
     this.id,
@@ -11,9 +11,6 @@ class CartItemm with ChangeNotifier {
     this.quantity,
     this.price,
   });
-  String get showQuantity {
-    return quantity.toString();
-  }
 }
 
 class Cart with ChangeNotifier {
@@ -103,5 +100,9 @@ class Cart with ChangeNotifier {
       _items.remove(prodId);
     }
     notifyListeners();
+  }
+
+  int showQuantity(productId) {
+    return _items[productId].quantity ?? 0;
   }
 }
