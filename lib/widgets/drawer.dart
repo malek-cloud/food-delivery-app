@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../screens/home1.dart';
+import '../providers/authprov.dart';
+import 'package:provider/provider.dart';
 import '../screens/settings.dart';
 import '../screens/localisation.dart';
 import '../screens/Horaire.dart';
 import '../screens/contact.dart';
 import '../screens/OrdersScreen.dart';
-import '../screens/menu.dart';
 
 class Drawerr extends StatelessWidget {
   @override
@@ -35,17 +37,18 @@ class Drawerr extends StatelessWidget {
         ),
         ListTile(
           title: Text(
-            'Menu',
+            'Historique',
             style: TextStyle(
               fontSize: 20,
               fontFamily: 'KiteOne',
               color: Colors.black,
             ),
           ),
-          subtitle: Text('Découvrez notre menu'),
-          leading: Icon(Icons.fastfood),
+          subtitle: Text('Voir vos ordres'),
+          leading: Icon(Icons.payment),
           onTap: () {
-            Get.offAll(Menu());
+            Navigator.of(context).pop();
+            Get.to(OrderScreen());
           },
         ),
         Divider(
@@ -56,17 +59,18 @@ class Drawerr extends StatelessWidget {
         ),
         ListTile(
           title: Text(
-            'Ordres',
+            "à propos",
             style: TextStyle(
               fontSize: 20,
               fontFamily: 'KiteOne',
               color: Colors.black,
             ),
           ),
-          subtitle: Text('Voir vos commandes'),
-          leading: Icon(Icons.payment),
+          subtitle: Text('Savois notre fonctionnement'),
+          leading: Icon(Icons.info),
           onTap: () {
-            Get.to(OrderScreen());
+            Navigator.of(context).pop();
+            Get.to(HomeOne());
           },
         ),
         Divider(
@@ -86,6 +90,7 @@ class Drawerr extends StatelessWidget {
           ),
           leading: Icon(Icons.settings),
           onTap: () {
+            Navigator.of(context).pop();
             Get.to(Settings());
           },
         ),
@@ -106,6 +111,7 @@ class Drawerr extends StatelessWidget {
           ),
           leading: Icon(Icons.timer),
           onTap: () {
+            Navigator.of(context).pop();
             Get.to(Horaire());
           },
         ),
@@ -117,7 +123,7 @@ class Drawerr extends StatelessWidget {
         ),
         ListTile(
           title: Text(
-            "Localisation",
+            "Notre Localisation",
             style: TextStyle(
               fontSize: 20,
               fontFamily: 'KiteOne',
@@ -126,6 +132,7 @@ class Drawerr extends StatelessWidget {
           ),
           leading: Icon(Icons.my_location),
           onTap: () {
+            Navigator.of(context).pop();
             Get.to(Localisation());
           },
         ),
@@ -146,10 +153,33 @@ class Drawerr extends StatelessWidget {
           ),
           leading: Icon(Icons.contact_mail),
           onTap: () {
+            Navigator.of(context).pop();
             Get.to(ContactScreen());
+          },
+        ),
+        Divider(
+          color: Colors.grey[350],
+          thickness: 1.0,
+          indent: 60,
+          height: 0,
+        ),
+        ListTile(
+          title: Text(
+            "Se déconnecter",
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'KiteOne',
+              color: Colors.black,
+            ),
+          ),
+          leading: Icon(Icons.exit_to_app),
+          onTap: () {
+            Navigator.of(context).pop();
+            Provider.of<Auth>(context, listen: false).logout();
           },
         ),
       ]),
     );
   }
 }
+
