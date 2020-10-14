@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../screens/commandeInfo.dart';
 import 'menu.dart';
-
-import '../providers/orders.dart';
-//import 'OrdersScreen.dart';
 import '../widgets/itemCrtAppearance.dart';
 import 'package:provider/provider.dart';
 import '../providers/CartProv.dart';
@@ -24,209 +21,47 @@ class _CartScreenState extends State<CartScreen> {
         floatingActionButton: FloatingActionButton.extended(
           heroTag: 'btn13',
           onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text(
-                  'Plus d\'informations sur la commande',
-                  softWrap: true,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.teal,
-                  ),
-                ),
-                content: ListView(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 10,
-                  ),
-                  children: [
-                    RaisedButton(
-                      onPressed: () async {
-                        final selectedTime = await _showingTime(context);
-                        if (selectedTime == null) {
-                          check += 1;
-                          return;
-                        }
-                      },
-                      child: Text(
-                        'choisir la temps de la livraison',
-                        softWrap: true,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'kiteOne',
-                          fontSize: 17,
+            if (carta.itemCount != 0) {
+              Get.to(Informations());
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text(
+                          'Oups !',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.teal,
+                            fontFamily: 'KiteOne',
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    RaisedButton(
-                      onPressed: () async {
-                        final selectedDate = await _showingDate(context);
-                        if (selectedDate == null) {
-                          check += 1;
-                          return;
-                        }
-                      },
-                      child: Text(
-                        'choisir la date de la livraison',
-                        softWrap: true,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'kiteOne',
-                          fontSize: 17,
+                        content: Text(
+                          'Mais vous n\'avez rien commandé !!',
+                          softWrap: true,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'KiteOne',
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Form(
-                      child: Column(
-                        children: [
-                          Text(
-                            'Saisir votre emplacement!',
-                            textAlign: TextAlign.center,
-                            softWrap: true,
-                            style: TextStyle(
-                              fontFamily: 'kiteOne',
-                              color: Colors.teal,
-                              fontSize: 18,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: 70,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color.fromRGBO(0, 0, 0, 0.1),
-                                    offset: Offset(6, 2),
-                                    blurRadius: 6.0,
-                                    spreadRadius: 3.0),
-                                BoxShadow(
-                                    color: Color.fromRGBO(255, 255, 255, 0.9),
-                                    offset: Offset(-6, -2),
-                                    blurRadius: 6.0,
-                                    spreadRadius: 3.0),
-                              ],
-                            ),
-                            child: TextFormField(
+                        actions: [
+                          FlatButton(
+                            onPressed: () {
+                              Get.to(Menu());
+                            },
+                            child: Text(
+                              'Retour',
                               style: TextStyle(
-                                fontFamily: 'kiteOne',
-                                fontSize: 17,
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'emplacement..',
-                                contentPadding: EdgeInsets.only(
-                                  left: 15,
-                                ),
+                                fontSize: 20,
+                                color: Colors.teal,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'KiteOne',
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            'Instructions speciales',
-                            textAlign: TextAlign.center,
-                            softWrap: true,
-                            style: TextStyle(
-                              fontFamily: 'kiteOne',
-                              color: Colors.teal,
-                              fontSize: 18,
-                            ),
-                          ),
-                          Container(
-                            height: 100,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(100.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.1),
-                                      offset: Offset(6, 2),
-                                      blurRadius: 6.0,
-                                      spreadRadius: 3.0),
-                                  BoxShadow(
-                                      color: Color.fromRGBO(255, 255, 255, 0.9),
-                                      offset: Offset(-6, -2),
-                                      blurRadius: 6.0,
-                                      spreadRadius: 3.0)
-                                ]),
-                            child: TextFormField(
-                              style: TextStyle(
-                                fontFamily: 'kiteOne',
-                                fontSize: 17,
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Exemple : Mayo..',
-                                contentPadding: EdgeInsets.only(
-                                  left: 15,
-                                ),
-                              ),
-                            ),
-                          )
                         ],
-                      ),
-                    ),
-                  ],
-                ),
-                actions: [
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(false);
-                    },
-                    child: Text('Annuler'),
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      if (check == 0) {
-                        Provider.of<Orders>(
-                          context,
-                          listen: false,
-                        ).addOrder(
-                          carta.items.values.toList(),
-                          carta.total,
-                        );
-                        carta.clear();
-                        Get.to(Menu());
-                        Get.snackbar(
-                          'bien !',
-                          'commandé avec succès',
-                          snackPosition: SnackPosition.BOTTOM,
-                          isDismissible: true,
-                          duration: Duration(seconds: 4),
-                        );
-                      } else {
-                        Navigator.of(context).pop(false);
-                        Get.snackbar(
-                          'Echec !',
-                          'Veuillez saisir les informations necessaires de la commande pour pouvoir l\'effectuer',
-                          snackPosition: SnackPosition.BOTTOM,
-                          duration: Duration(seconds: 5),
-                          isDismissible: true,
-                        );
-                      }
-                    },
-                    child: Text(
-                      'passer la commande',
-                      softWrap: true,
-                    ),
-                  ),
-                ],
-              ),
-            );
+                      ));
+            }
           },
           backgroundColor: Colors.teal,
           icon: Icon(
@@ -283,7 +118,7 @@ class _CartScreenState extends State<CartScreen> {
                           backgroundColor: Colors.transparent,
                           child: Icon(Icons.keyboard_return),
                           onPressed: () {
-                            Navigator.pop(context);
+                            Get.offAll(Menu());
                           }),
                     ),
                     Row(
@@ -329,7 +164,7 @@ class _CartScreenState extends State<CartScreen> {
                     vertical: 10,
                   ),
                   child: Text(
-                    'Totale : \$${carta.total.toStringAsFixed(2)}',
+                    'Totale : ${carta.total.toStringAsFixed(2)} €',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -407,3 +242,4 @@ class CustomShapeClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper oldClipper) => true;
 }
+
