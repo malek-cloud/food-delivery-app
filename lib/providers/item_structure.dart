@@ -7,6 +7,8 @@ class Item with ChangeNotifier {
   final double price;
   final String imageUrl;
   final String category;
+  final List options;
+  final List supplements;
   bool isFavorite;
   Item({
     this.id,
@@ -16,6 +18,8 @@ class Item with ChangeNotifier {
     this.imageUrl,
     this.isFavorite = false,
     this.category,
+    this.options,
+    this.supplements,
   });
   void toggleFav() {
     isFavorite = !isFavorite;
