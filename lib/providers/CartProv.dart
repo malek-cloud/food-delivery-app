@@ -5,11 +5,15 @@ class CartItemm with ChangeNotifier {
   final String title;
   int quantity;
   final double price;
+  List options;
+  List supplements;
   CartItemm({
     this.id,
     this.title,
     this.quantity,
     this.price,
+    this.options,
+    this.supplements,
   });
 }
 
@@ -27,7 +31,14 @@ class Cart with ChangeNotifier {
     return count;
   }
 
-  void addItemToCart(String productId, double price, String title) {
+  void addItemToCart(
+    String productId,
+    double price,
+    String title,
+    int quantity,
+    List option,
+    List supplements,
+  ) {
     if (_items.containsKey(productId)) {
       _items.update(
           productId,
@@ -36,6 +47,8 @@ class Cart with ChangeNotifier {
                 title: existingCartItem.title,
                 price: existingCartItem.price,
                 quantity: existingCartItem.quantity + 1,
+                options: existingCartItem.options,
+                supplements: existingCartItem.supplements,
               ));
     } else {
       _items.putIfAbsent(
@@ -45,6 +58,8 @@ class Cart with ChangeNotifier {
           title: title,
           price: price,
           quantity: 1,
+          options: option,
+          supplements: supplements,
         ),
       );
     }
@@ -57,19 +72,6 @@ class Cart with ChangeNotifier {
       total += value.price * value.quantity;
     });
     return total;
-  }
-
-  void sommeItem(String productId) {
-    _items[productId].quantity += 1;
-    notifyListeners();
-  }
-
-  void moinsItem(String productId) {
-    if (_items[productId].quantity > 0) {
-      _items[productId].quantity -= 1;
-    }
-
-    notifyListeners();
   }
 
   void removeItem(String productId) {
@@ -94,6 +96,8 @@ class Cart with ChangeNotifier {
           title: existingCartItem.title,
           price: existingCartItem.price,
           quantity: existingCartItem.quantity - 1,
+          options: existingCartItem.options,
+          supplements: existingCartItem.supplements,
         ),
       );
     } else {
