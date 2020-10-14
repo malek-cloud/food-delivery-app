@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:happy__hummy/screens/menu.dart';
-
 import 'package:provider/provider.dart';
 import '../providers/orders.dart' show Orders;
 import '../widgets/orderItem.dart';
 
-class OrderScreen extends StatelessWidget {
+class OrderScreen extends StatefulWidget {
+  @override
+  _OrderScreenState createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends State<OrderScreen> {
+  bool _isLoading = false;
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then((_) async {
+      setState(() {
+        _isLoading = true;
+      });
+      await Provider.of<Orders>(context, listen: false).getOrders();
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final orderProv = Provider.of<Orders>(context);
@@ -35,7 +54,9 @@ class OrderScreen extends StatelessWidget {
             color: Colors.white,
             icon: Icon(Icons.keyboard_return),
             onPressed: () {
-              Navigator.pop(context);
+              Get.offAll(
+                Menu(),
+              );
             }),
       ),
       backgroundColor: Colors.teal,
@@ -82,12 +103,16 @@ class OrderScreen extends StatelessWidget {
                       height: 25,
                     ),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: orderProv.ordersList.length,
-                        itemBuilder: (ctx, i) => OrderItem(
-                          orderProv.ordersList[i],
-                        ),
-                      ),
+                      child: _isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : ListView.builder(
+                              itemCount: orderProv.ordersList.length,
+                              itemBuilder: (ctx, i) => OrderItem(
+                                orderProv.ordersList[i],
+                              ),
+                            ),
                     ),
                   ],
                 ),
@@ -99,3 +124,4 @@ class OrderScreen extends StatelessWidget {
     );
   }
 }
+
