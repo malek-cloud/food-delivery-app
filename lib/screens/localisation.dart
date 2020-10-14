@@ -154,15 +154,6 @@ class Stackk extends StatelessWidget {
                 SizedBox(
                   height: 13,
                 ),
-                Text(
-                  'Lmap nheee',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontFamily: 'KiteOne',
-                  ),
-                ),
               ],
             ))
           ],
@@ -196,3 +187,4 @@ class CustomShapeClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper oldClipper) => true;
 }
+
